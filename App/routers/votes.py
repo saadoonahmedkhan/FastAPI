@@ -22,10 +22,12 @@ def vote(vote: schema.Vote, db: Session = Depends(get_db), current_user = Depend
         db.add(new_vote)
         db.commit()
         return {"message": "Successfully added vote"}
-    else:
+    elif vote.dir == 0:
         found_vote = db.query(models.Vote).filter(models.Vote.post_id == vote.post_id).filter(models.Vote.user_id == current_user.id).first()
         if not found_vote:
             raise HTTPException(status_code = status.HTTP_404_NOT_FOUND, detail = "Vote does not exist")
         db.delete(found_vote)
         db.commit()
         return {"message": "Successfully deleted vote"}
+    else:
+        raise HTTPException(status_code = status.HTTP_400_BAD_REQUEST, detail = "Invalid vote direction")

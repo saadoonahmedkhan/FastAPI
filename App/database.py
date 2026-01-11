@@ -1,9 +1,12 @@
-from sqlalchemy import create_engine, Column, Integer, String, Boolean
+from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.orm import sessionmaker
+from urllib.parse import quote
 from App.config import settings
 
-SQL_Alchemy_Database_URL = f"postgresql://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}"
+# URL encode the password to handle special characters
+encoded_password = quote(settings.database_password, safe="")
+SQL_Alchemy_Database_URL = f"postgresql+psycopg://{settings.database_username}:{encoded_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}"
 
 
 engine = create_engine(SQL_Alchemy_Database_URL)

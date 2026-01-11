@@ -70,7 +70,7 @@ def update_post(
     post_query = db.query(models.Post).filter(models.Post.id == id)
     post = post_query.first()
     if post is None:
-        raise HTTPException(status_code=404, detail=f"Post with id {id} not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Post with id {id} not found")
     if post.owner_id != current_user.id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
