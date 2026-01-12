@@ -1,7 +1,7 @@
 from App import schema
 
-def test_get_all_posts(auth_client, posts):
-    res = auth_client.get("/posts/")
+def test_get_all_posts(client, posts):
+    res = client.get("/posts/")
 
     def validate(row):
         return schema.Post(**row["post"])  # 👈 dict access
